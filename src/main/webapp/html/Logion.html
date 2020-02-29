@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登入</title>
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div align="center">
+
+    <input type="text" id="uname" placeholder="用户名"><br><br>
+    <input type="password" id="pwd"  placeholder="请输入密码"><br><br>
+    <input type="button" value="登入" onclick="dengru()"> <input type="button" value="注册">
+</div>
+<script type="text/javascript">
+
+   function dengru(){
+       var username=$(" #uname ").val();
+      var userpwd=$(" #pwd ").val();
+
+       $.ajax({
+           url: '/work/enter',
+           type: 'POST',
+           dataType: 'text',
+           data:{'username':username,'userpwd':userpwd},
+           success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
+               if(data==='sb'){
+                   alert("账号密码错误")
+                   location.href='Logion.html'
+               }else  if(data==="ac"){
+                   alert("错误5次  休息五分钟")
+               }
+               else  {
+                   alert("登入成功")
+                   location.href="index.html"
+               }
+           },
+           error:function(){//失败的函数
+               console.log("连接失败！")
+           },
+           complete:function(){//不管成功还是失败 都会进这个函数
+           }
+   })
+   }
+</script>
+</body>
+</html>

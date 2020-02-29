@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="modle.dao.UserMapper">
+    <!--登录-->
+    <select id="userLogion" parameterType="Map" resultType="Map">
+
+        select k_phone from user where k_name=#{username} and k_pwd=#{userpwd}
+
+    </select>
+    <!--注册-->
+    <insert id="userRegisr" parameterType="Map">
+        insert into from user values (k_name=#{username},k_pwd={userpwd},k_idcard=#{idcard} and k_phone=#{phone})
+    </insert>
+</mapper>

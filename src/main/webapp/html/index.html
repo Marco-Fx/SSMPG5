@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<table border="1" align="center">
+    <thead>
+    <th>101</th>
+    <th>102</th>
+    <th>103</th>
+    <th>操作</th>
+    </thead>
+    <tbody id="tbody1"></tbody>
+    <tfoot id="tf1"></tfoot>
+</table>
+
+
+
+<script type="text/javascript">
+    var size = $(" #sizes ").val();
+
+    function fg(cd) {
+        $.ajax({
+            url: '/work/pageinfo',
+            type: 'GET',
+            dataType: 'text',
+            data: {'pagenum': cd, 'pagesize': 3},
+            success: function (data) { // 成功拿到结果放到这个函数 data就是拿到的结果
+                var obj = eval('(' + data + ')');
+                var str1=''
+                for (var i in obj.navigatepageNums) {
+                    str1+=('<input type="button" onclick="fg('+(parseInt(obj.navigatepageNums[i]))+')" value="'+(parseInt(obj.navigatepageNums[i]))+'">')
+                }
+                var data1=JSON.stringify(obj.list);
+                var obj = eval('(' + data1 + ')');
+                var str=''
+                $.each(obj, function (n, value) {
+                    str+=('<tr><td>'+value.k_sname+'</td><td>'+value.k_sid+'</td><td>'+value.k_sprice+'</td><td><input type="button" value="删除"><input type="button" value="修改"></td></tr>')
+                })
+                $("#tbody1").html(str);
+                $("#tf1").html(str1);
+
+            }
+        })
+    }
+    $.ajax({
+        url: '/work/pageinfo',
+        type: 'GET',
+        dataType: 'text',
+        data: {'pagenum': 1, 'pagesize': 3},
+        success: function (data) { // 成功拿到结果放到这个函数 data就是拿到的结果
+            var obj = eval('(' + data + ')');
+            /**
+             * "pageNum":2," 当前页号
+             * "pageSize":2,"每页大小
+             * "size":2,实际条数
+             * "total":29,"总条数
+             * "pages":15,总页数
+             * list  :数据
+             *  prePage  前一页
+             *
+             //总记录数
+             private long total;
+             //总页数
+             private int pages;
+             * */
+            var str1=''
+            for (var i in obj.navigatepageNums) {
+                str1+=('<input type="button" onclick="fg('+(parseInt(obj.navigatepageNums[i]))+')" value="'+(parseInt(obj.navigatepageNums[i]))+'">')
+            }
+            var data1=JSON.stringify(obj.list);
+            var obj = eval('(' + data1 + ')');
+            var str=''
+            $.each(obj, function (n, value) {
+                str+=('<tr><td>'+value.k_sname+'</td><td>'+value.k_sid+'</td><td>'+value.k_sprice+'</td><td><input type="button" value="删除"><input type="button" value="修改"></td></tr>')
+            })
+            $("#tbody1").append(str);
+            $("#tf1").append(str1);
+        },
+        error: function () {//失败的函数
+            console.log("连接失败！")
+        }
+    })
+</script>
+</body>
+</html>
